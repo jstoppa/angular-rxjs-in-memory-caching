@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { mergeMap, tap, distinct,  } from 'rxjs/operators';
+import { mergeMap, tap, distinct, delay } from 'rxjs/operators';
 import { from, of, iif, Observable, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -19,7 +19,7 @@ export class ApiService {
       distinct(),
       mergeMap(id => 
         iif(
-          () => this.condition(id) || forceRefresh,
+          () => forceRefresh || this.isInCache(id),
           this.makeCall(id),
           this.getFromCache(id)
         )
@@ -27,16 +27,8 @@ export class ApiService {
       tap(res => this.sendData(res))).subscribe();
   }
 
-  condition(id): boolean {
-    if (!(this.dataCache && this.dataCache[id])) {
-      console.log(this.dataCache[id])
-      return true;
-    }
-    else
-    {
-      console.log(this.dataCache[id])
-      return false;
-    }
+  isInCache(id): boolean {
+    return !(this.dataCache && this.dataCache[id]) ? true : false;
   }
 
   getSubjects(ids: number[]): BehaviorSubjectObject {
@@ -56,12 +48,13 @@ export class ApiService {
   }
 
   makeCall(id: number): Observable<Data> {
-    console.log('call for id = ' + id);
-    return <Observable<Data>>this.httpClient.get(`https://jsonplaceholder.typicode.com/todos//${id}`);
+    const num = Math.floor(Math.random() * 6000) + 1;
+    console.log(num);
+    return <Observable<Data>>this.httpClient.get  (`https://jsonplaceholder.typicode.com/todos//${id}`).pipe(delay(num));
+    
   }
 
   getFromCache(id: number): Observable<Data> {
-    console.log('getting from cache for id = ' + id);
     return of(this.dataCache[id]);
   }
 
