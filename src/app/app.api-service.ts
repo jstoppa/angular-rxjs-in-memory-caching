@@ -49,9 +49,7 @@ export class ApiService {
 
   makeCall(id: number): Observable<Data> {
     const num = Math.floor(Math.random() * 6000) + 1;
-    console.log(num);
     return <Observable<Data>>this.httpClient.get  (`https://jsonplaceholder.typicode.com/todos//${id}`).pipe(delay(num));
-    
   }
 
   getFromCache(id: number): Observable<Data> {

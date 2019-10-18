@@ -7,8 +7,7 @@ import { ApiService } from './app.api-service';
     <button (click)="getItems(false)">Refresh Data from Cache</button>
     <button (click)="getItems(true)">Refresh Data from Server</button>
     <span *ngFor="let widget of widgets">
-      <div *ngIf="(bsubs[widget] | async) as item"
-      style="border-style: solid; margin-top: 5px; padding: 5px">
+      <div *ngIf="(bsubs[widget] | async) as item">
         <span>id: {{ item?.id }}</span>
         <p>data: {{ item?.title }}</p>
       </div>
@@ -17,7 +16,7 @@ import { ApiService } from './app.api-service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit  {
-  widgets = [10,3];
+  widgets = [10,3,10,2];
   bsubs = this.apiService.getSubjects(this.widgets);
   
   constructor(private apiService: ApiService ){}
