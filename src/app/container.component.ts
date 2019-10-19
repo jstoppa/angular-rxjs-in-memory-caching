@@ -15,7 +15,7 @@ import { ApiService } from './app.api-service';
   `,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit  {
+export class ContainerComponent implements OnInit  {
   widgets = [10,3,10,2];
   bsubs = this.apiService.getSubjects(this.widgets);
   
