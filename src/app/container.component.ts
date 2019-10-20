@@ -6,9 +6,9 @@ import { ApiService } from './api.service';
   template: `
     <button (click)="getItems(false)">Refresh Data from Cache</button>
     <button (click)="getItems(true)">Refresh Data from Server</button>
-    <span *ngFor="let widget of widgets">
+    <div *ngFor="let widget of widgets">
       <presentational-component [item]="bsubs[widget] | async"></presentational-component>
-    </span>
+    </div>
   `,
   styleUrls: ['./container.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,7 +19,7 @@ export class ContainerComponent implements AfterViewInit  {
   
   constructor(private apiService: ApiService ){}
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { 
     this.getItems(false);
   }
   

@@ -22,6 +22,7 @@ export class ApiService {
       distinct(),
       mergeMap(id =>
         iif(
+          // force refresh or get data from cache
           () => forceRefresh || !(this.dataCache && this.dataCache[id]),
           this.httpClient.
             get(`https://jsonplaceholder.typicode.com/todos/${id}`).
@@ -36,10 +37,10 @@ export class ApiService {
 
   // get Behaviour Subjects for each connection
   getSubjects(ids: number[]): BehaviorSubjectObject {
-    for (const id in ids) {
+    ids.forEach(id => {
       if (!this.bsubs[id])
         this.bsubs[id] = new BehaviorSubject({} as Data);
-    }
+    });
     return this.bsubs;
   }
 
