@@ -24,13 +24,17 @@ export class ApiService {
         iif(
           // force refresh or get data from cache
           () => forceRefresh || !(this.dataCache && this.dataCache[id]),
+          // get data from server (add a random delay to simulate latency) 
           this.httpClient.
             get(`https://jsonplaceholder.typicode.com/todos/${id}`).
             pipe(delay(Math.floor(Math.random() * 3000) + 1)) as Observable<Data>,
+          // get data from cache
           of(this.dataCache[id])
         )
       ),
+      // send data to behaviour subjects
       tap(res => this.sendData(res))).
+      // take as many ids as being passed
       pipe(take(ids.length)).
       subscribe();
   }
