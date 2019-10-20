@@ -17,13 +17,14 @@ export class ApiService {
 
   // method to featch data either from cache or via web service call
   // and push it into its respective Behaviour Subject
-  getItems(ids: number[], forceRefresh: boolean = false) {
+  getItems(ids: number[], forceRefreshFromServer: boolean = false) {
     from(ids).pipe(
+      // get a distinct list of ids
       distinct(),
       mergeMap(id =>
         iif(
           // force refresh or get data from cache
-          () => forceRefresh || !(this.dataCache && this.dataCache[id]),
+          () => forceRefreshFromServer || !(this.dataCache && this.dataCache[id]),
           // get data from server (add a random delay to simulate latency) 
           this.httpClient.
             get(`https://jsonplaceholder.typicode.com/todos/${id}`).

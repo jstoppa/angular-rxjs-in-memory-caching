@@ -20,11 +20,11 @@ export class ContainerComponent implements AfterViewInit  {
   constructor(private apiService: ApiService ){}
 
   ngAfterViewInit() { 
-    this.getItems(false);
+    this.getItems(true);
   }
   
-  getItems(forceRefresh: boolean) {
-    this.apiService.getItems(this.widgets, forceRefresh);  
+  getItems(forceRefreshFromServer: boolean) {
+    this.apiService.getItems(this.widgets, forceRefreshFromServer);  
   }
 
 }
