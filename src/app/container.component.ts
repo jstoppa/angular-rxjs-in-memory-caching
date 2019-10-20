@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from './app.api-service';
+import { Component, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'my-app',
@@ -7,21 +7,19 @@ import { ApiService } from './app.api-service';
     <button (click)="getItems(false)">Refresh Data from Cache</button>
     <button (click)="getItems(true)">Refresh Data from Server</button>
     <span *ngFor="let widget of widgets">
-      <div *ngIf="(bsubs[widget] | async) as item">
-        <span>id: {{ item?.id }}</span>
-        <p>data: {{ item?.title }}</p>
-      </div>
+      <presentational-component [item]="bsubs[widget] | async"></presentational-component>
     </span>
   `,
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./container.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContainerComponent implements OnInit  {
-  widgets = [10,3,10,2];
+export class ContainerComponent implements AfterViewInit  {
+  widgets = [1,1,2,3,4,5];
   bsubs = this.apiService.getSubjects(this.widgets);
   
   constructor(private apiService: ApiService ){}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.getItems(false);
   }
   

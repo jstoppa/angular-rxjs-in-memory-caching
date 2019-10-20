@@ -1,30 +1,30 @@
 import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
-import { Data } from './app.api-service';
+import { Data } from './models';
 
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'my-presentational-component',
+  selector: 'presentational-component',
   template: `
     <div>
-        <span><strong>Id:</strong> {{ value?.id }}</span>
-        <p><strong>data:</strong> {{ value?.title }}</p>
+        <span><strong>Id:</strong> {{ data?.id }}</span>
+        <p><strong>Data:</strong> {{ data?.title }}</p>
     </div>
   `,
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./presentational.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PresentationlComponent {
-  value: Data;
+  data: Data;
   constructor(private hostElement: ElementRef) {}
 
   @Input()
   set item(value: Data) {
-    if (this.hostElement && this.hostElement.nativeElement && value && value.id) {
+    if (value && value.id && this.hostElement && this.hostElement.nativeElement) {
       this.hostElement.nativeElement.firstElementChild.style.backgroundColor = 'pink';
       setTimeout(() => {
         this.hostElement.nativeElement.firstElementChild.style.backgroundColor = 'white';
       }, 500);
     }
-    this.value = value;
+    this.data = value;
   }
 }
