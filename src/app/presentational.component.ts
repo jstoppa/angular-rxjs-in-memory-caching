@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { Data } from './models';
+import { ApiService } from './api.service';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -8,6 +9,8 @@ import { Data } from './models';
     <div>
         <span><strong>Id:</strong> {{ data?.id }}</span>
         <p><strong>Data:</strong> {{ data?.title }}</p>
+        <button (click)="getItem(data?.id, false)">Refresh Data from Cache</button>
+        <button (click)="getItem(data?.id, true)">Refresh Data from Server</button>
     </div>
   `,
   styleUrls: ['./presentational.component.css'],
@@ -15,7 +18,7 @@ import { Data } from './models';
 })
 export class PresentationlComponent {
   data: Data;
-  constructor(private hostElement: ElementRef) {}
+  constructor(private hostElement: ElementRef, private apiService: ApiService ){}
 
   @Input()
   set item(value: Data) {
@@ -26,5 +29,9 @@ export class PresentationlComponent {
       }, 500);
     }
     this.data = value;
+  }
+  
+  getItem(id, forceRefreshFromServer) {
+    this.apiService.getItems([id], forceRefreshFromServer);  
   }
 }
