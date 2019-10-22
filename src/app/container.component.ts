@@ -7,7 +7,11 @@ import { ApiService } from './api.service';
     <button (click)="getItems(false)">Refresh ALL Data from Cache</button>
     <button (click)="getItems(true)">Refresh ALL Data from Server</button>
     <div *ngFor="let widget of widgets">
-      <presentational-component [item]="bsubs[widget] | async"></presentational-component>
+      <div class="box">
+        <presentational-component [item]="bsubs[widget] | async"></presentational-component>
+        <button (click)="getItems([widget], false)">Refresh Data from Cache</button>
+        <button (click)="getItems([widget], true)">Refresh Data from Server</button>
+      </div>
     </div>
   `,
   styleUrls: ['./container.component.css'],
@@ -20,11 +24,11 @@ export class ContainerComponent implements AfterViewInit  {
   constructor(private apiService: ApiService ){}
 
   ngAfterViewInit() { 
-    this.getItems(true);
+    this.getItems(this.widgets, true);
   }
   
-  getItems(forceRefreshFromServer: boolean) {
-    this.apiService.getItems(this.widgets, forceRefreshFromServer);  
+  getItems(ids: number[], forceRefreshFromServer: boolean) {
+    this.apiService.getItems(ids, forceRefreshFromServer);  
   }
 
 }
