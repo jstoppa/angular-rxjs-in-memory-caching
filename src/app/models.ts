@@ -4,7 +4,7 @@ export declare interface BehaviorSubjectObject {
   [key: string]: BehaviorSubject<Data>;
 }
 
-declare interface DataCache {
+export declare interface DataCache {
   [key: string]: Data;
 }
 

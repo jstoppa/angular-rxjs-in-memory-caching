@@ -4,8 +4,8 @@ import { ApiService } from './api.service';
 @Component({
   selector: 'my-app',
   template: `
-    <button (click)="getItems(false)">Refresh ALL Data from Cache</button>
-    <button (click)="getItems(true)">Refresh ALL Data from Server</button>
+    <button (click)="getItems(widgets, false)">Refresh ALL Data from Cache</button>
+    <button (click)="getItems(widgets, true)">Refresh ALL Data from Server</button>
     <div *ngFor="let widget of widgets">
       <div class="box">
         <presentational-component [item]="bsubs[widget] | async"></presentational-component>
